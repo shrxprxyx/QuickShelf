@@ -1,6 +1,7 @@
 import uuid
-from sqlalchemy import Column, String, DateTime, Numeric, Boolean, ForeignKey
+from sqlalchemy import Column, String, DateTime, Numeric, Boolean, ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
 
@@ -17,3 +18,15 @@ class Issue(Base):
     status = Column(String, nullable=False, default="issued")  # issued | returned | overdue
     fine_amount = Column(Numeric, default=0)
     fine_paid = Column(Boolean, default=False)
+
+    book = relationship("Book", back_populates="issues")
+    user = relationship("User", back_populates="issues")
+
+    __table_args__ = (
+        Index("idx_issues_user_id_status", "user_id", "status"),
+        Index("idx_issues_book_id", "book_id"),
+        Index("idx_issues_due_date", "due_date"),
+    )
+
+    def __repr__(self):
+        return f"<Issue(id={self.id}, book_id={self.book_id}, user_id={self.user_id}, status={self.status})>"
