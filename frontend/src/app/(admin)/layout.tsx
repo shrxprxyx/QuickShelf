@@ -16,12 +16,19 @@ const navItems = [
   { href: "/fines", label: "Fines", icon: Wallet },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="flex min-h-screen">
       <aside className="w-60 shrink-0 border-r bg-muted/30 flex flex-col">
         <div className="px-4 py-5 font-semibold text-lg border-b">
-          📚 Smart Library
+          QuickShelf Admin
+        </div>
+        <div className="px-4 py-2 text-xs text-muted-foreground border-b">
+          Navigation
         </div>
         <nav className="flex-1 px-2 py-4 space-y-1">
           {navItems.map((item) => (
